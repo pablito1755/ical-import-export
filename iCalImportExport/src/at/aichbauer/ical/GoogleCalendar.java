@@ -16,13 +16,13 @@ public class GoogleCalendar {
 	public static final String SYNC_MARK = "_sync_mark";
 	public static final String URL = "url";
 	public static final String NAME = "name";
-	public static final String DISPLAY_NAME = "displayName";
+	public static final String DISPLAY_NAME = "calendar_displayName";
 	public static final String HIDDEN = "hidden";
 	public static final String COLOR = "color";
 	public static final String ACCESS_LEVEL = "access_level";
-	public static final String SELECTED = "selected";
+	public static final String VISIBLE = "visible";
 	public static final String SYNC_EVENTS = "sync_events";
-	public static final String LOCATION = "location";
+	public static final String LOCATION = "calendar_location";
 	public static final String TIMEZONE = "timezone";
 	public static final String OWNERACCOUNT = "ownerAccount";
 	public static final Uri CONTENT_URI_PRE_8 = Uri.parse("content://calendar/calendars");
@@ -70,7 +70,7 @@ public class GoogleCalendar {
 		calendar.name = c.getString(c.getColumnIndex(NAME));
 		calendar.displayName = c.getString(c.getColumnIndex(DISPLAY_NAME));
 		calendar.ownerAccount = c.getString(c.getColumnIndex(OWNERACCOUNT));
-		calendar.isActive = c.getInt(c.getColumnIndex(SELECTED)) == 1;
+		calendar.isActive = c.getInt(c.getColumnIndex(VISIBLE)) == 1;
 		return calendar;
 	}
 
