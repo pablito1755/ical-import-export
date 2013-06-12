@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
 import at.aichbauer.ical.activities.CalendarActivity;
+import at.aichbauer.ical.inputAdapters.BasicInputAdapter;
 import at.aichbauer.tools.dialogs.DialogTools;
 import at.aichbauer.tools.dialogs.RunnableWithProgress;
 
@@ -30,11 +31,15 @@ public class SaveCalendar extends RunnableWithProgress {
 
 	@Override
 	public void run(ProgressDialog dialog) {
-		String selected_filename = ((CalendarActivity)getActivity()).getSelectedURL().toString();
-		selected_filename = selected_filename.substring(selected_filename.indexOf("Android"), selected_filename.length());
+		String selectedFilename = "";
+		BasicInputAdapter selectedURL =	((CalendarActivity)getActivity()).getSelectedURL();
+		if(selectedURL != null){
+			String tmp = selectedURL.toString();
+			selectedFilename = tmp.substring(tmp.indexOf("Android"), tmp.length());			
+		}
 		String input = DialogTools
 				.questionDialog(getActivity(), R.string.dialog_choosefilename_title,
-						R.string.dialog_choosefilename_message, R.string.dialog_proceed, selected_filename, true,
+						R.string.dialog_choosefilename_message, R.string.dialog_proceed, selectedFilename, true,
 						R.drawable.calendar, false);
 		if (input == null || input.equals("")) {
 			return;
