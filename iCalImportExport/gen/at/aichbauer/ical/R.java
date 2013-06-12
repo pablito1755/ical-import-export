@@ -10,34 +10,41 @@ package at.aichbauer.ical;
 public final class R {
     public static final class attr {
     }
+    public static final class dimen {
+        public static final int margin_main_left=0x7f050001;
+        public static final int margin_main_right=0x7f050002;
+        public static final int margin_main_top=0x7f050000;
+    }
     public static final class drawable {
         public static final int calendar=0x7f020000;
         public static final int calendar_gray=0x7f020001;
         public static final int icon=0x7f020002;
     }
     public static final class id {
-        public static final int DeleteButton=0x7f06000a;
-        public static final int InsertButton=0x7f060009;
-        public static final int LoadButton=0x7f060006;
-        public static final int SaveButton=0x7f060002;
-        public static final int SearchButton=0x7f060003;
-        public static final int SetUrlButton=0x7f060004;
-        public static final int ShowInformationButton=0x7f060001;
-        public static final int Spinner01=0x7f060000;
-        public static final int Spinner02=0x7f060005;
-        public static final int beer=0x7f06000f;
-        public static final int changelog=0x7f06000d;
-        public static final int help=0x7f06000c;
-        public static final int license=0x7f06000e;
-        public static final int linearLayout01=0x7f060008;
-        public static final int quit=0x7f06000b;
-        public static final int textView01=0x7f060007;
+        public static final int DeleteButton=0x7f07000b;
+        public static final int InsertButton=0x7f07000a;
+        public static final int LoadButton=0x7f070008;
+        public static final int Main=0x7f070000;
+        public static final int SaveButton=0x7f07000c;
+        public static final int SearchButton=0x7f070004;
+        public static final int SetUrlButton=0x7f070005;
+        public static final int ShowInformationButton=0x7f070002;
+        public static final int Spinner01=0x7f070001;
+        public static final int Spinner02=0x7f070006;
+        public static final int beer=0x7f070011;
+        public static final int changelog=0x7f07000f;
+        public static final int help=0x7f07000e;
+        public static final int icalFileButtons=0x7f070003;
+        public static final int license=0x7f070010;
+        public static final int loadICalContainer=0x7f070007;
+        public static final int quit=0x7f07000d;
+        public static final int textView01=0x7f070009;
     }
     public static final class layout {
         public static final int main=0x7f030000;
     }
     public static final class menu {
-        public static final int menu=0x7f050000;
+        public static final int menu=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
@@ -96,6 +103,8 @@ public final class R {
         public static final int spinner_choose_file=0x7f040014;
         public static final int textview_calendar_short_information=0x7f040012;
         public static final int textview_choose_calendar=0x7f040011;
+        public static final int textview_export=0x7f04003a;
+        public static final int textview_modify_calendar=0x7f040039;
         public static final int textview_search_sd=0x7f040013;
     }
 }

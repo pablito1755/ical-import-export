@@ -55,7 +55,6 @@ public class CalendarActivity extends Activity {
 	 */
 	private List<BasicInputAdapter> urls;
 	private List<GoogleCalendar> calendars;
-	private LinearLayout processGroup;
 	private SharedPreferences preferences;
 
 	@Override
@@ -87,7 +86,6 @@ public class CalendarActivity extends Activity {
 		calendarInformation = (Button) findViewById(R.id.ShowInformationButton);
 		dumpCalendar = (Button) findViewById(R.id.SaveButton);
 		icalInformation = (TextView) findViewById(R.id.textView01);
-		processGroup = (LinearLayout) findViewById(R.id.linearLayout01);
 		setUrlButton = (Button) findViewById(R.id.SetUrlButton);
 
 		new Thread(new Runnable() {
@@ -132,8 +130,8 @@ public class CalendarActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				calendarInformation.setVisibility(CalendarActivity.this.calendars == null ? View.GONE : View.VISIBLE);
-				dumpCalendar.setVisibility(CalendarActivity.this.calendars == null ? View.GONE : View.VISIBLE);
+				calendarInformation.setEnabled(CalendarActivity.this.calendars == null ? false : true);
+				dumpCalendar.setEnabled(CalendarActivity.this.calendars == null ? false : true);
 
 			}
 		});
@@ -151,7 +149,7 @@ public class CalendarActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				loadButton.setVisibility(CalendarActivity.this.urls == null ? View.GONE : View.VISIBLE);
+				loadButton.setEnabled(CalendarActivity.this.urls == null ? false : true);
 			}
 		});
 	}
@@ -161,7 +159,8 @@ public class CalendarActivity extends Activity {
 			@Override
 			public void run() {
 				icalInformation.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
-				processGroup.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
+				deleteButton.setEnabled(calendar == null ? false : true);
+				insertButton.setEnabled(calendar == null ? false : true);
 				if (calendar != null) {
 					icalInformation.setText(getString(R.string.textview_calendar_short_information, calendar
 							.getComponents(VEvent.VEVENT).size()));
