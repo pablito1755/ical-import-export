@@ -3,8 +3,13 @@ package at.aichbauer.ical;
 import java.io.File;
 
 import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
+import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.component.VTimeZone;
+import net.fortuna.ical4j.model.property.DtEnd;
+import net.fortuna.ical4j.model.property.DtStart;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -51,12 +56,17 @@ public class InsertVEvents extends ProcessVEvent {
 
 			setProgressMessage(R.string.progress_insert_entries);
 			ComponentList vevents = getCalendar().getComponents(VEvent.VEVENT);
+			
 
 			dialog.setMax(vevents.size());
 			ContentResolver resolver = getActivity().getContentResolver();
 			int i = 0;
 			int j = 0;
+			
+			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
+			final TimeZone timeZone =  new TimeZone(vTimeZone);
 			for (Object event : vevents) {
+				checkTimeZone((VEvent) event, timeZone);
 				ContentValues values = VEventWrapper.resolve((VEvent) event, getCalendarId());
 				if(reminder.getReminders().size()>0) {
 					values.put("hasAlarm", 1);
@@ -105,5 +115,17 @@ public class InsertVEvents extends ProcessVEvent {
 							"I am sorry for you inconvinience. Please send file ical_error.log located on your sd card to lukas.aichbauer@gmail.com.",
 							R.drawable.calendar);
 		}
+	}
+
+	private void checkTimeZone(VEvent event, TimeZone timeZone) {
+		DtStart dtStart = event.getStartDate();
+		if(dtStart.getTimeZone() == null){
+			dtStart.setTimeZone(timeZone);
+		}
+		DtEnd dtEnd = event.getEndDate();
+		if(dtEnd.getTimeZone() == null){
+			dtEnd.setTimeZone(timeZone);
+		}
+		
 	}
 }
