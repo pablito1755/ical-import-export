@@ -63,10 +63,8 @@ public class InsertVEvents extends ProcessVEvent {
 			int i = 0;
 			int j = 0;
 			
-			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
-			final TimeZone timeZone =  new TimeZone(vTimeZone);
 			for (Object event : vevents) {
-				checkTimeZone((VEvent) event, timeZone);
+				checkTimeZone((VEvent) event);
 				ContentValues values = VEventWrapper.resolve((VEvent) event, getCalendarId());
 				if(reminder.getReminders().size()>0) {
 					values.put("hasAlarm", 1);
@@ -117,14 +115,16 @@ public class InsertVEvents extends ProcessVEvent {
 		}
 	}
 
-	private void checkTimeZone(VEvent event, TimeZone timeZone) {
+	private void checkTimeZone(VEvent event) {
 		DtStart dtStart = event.getStartDate();
 		if(dtStart.getTimeZone() == null){
-			dtStart.setTimeZone(timeZone);
+			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
+			dtStart.setTimeZone(new TimeZone(vTimeZone));
 		}
 		DtEnd dtEnd = event.getEndDate();
 		if(dtEnd.getTimeZone() == null){
-			dtEnd.setTimeZone(timeZone);
+			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
+			dtEnd.setTimeZone(new TimeZone(vTimeZone));
 		}
 		
 	}
