@@ -6,6 +6,8 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.TimeZone;
+import net.fortuna.ical4j.model.TimeZoneRegistry;
+import net.fortuna.ical4j.model.TimeZoneRegistryFactory;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.DtEnd;
@@ -21,6 +23,7 @@ import at.aichbauer.tools.dialogs.DialogTools;
 import at.aichbauer.tools.providers.ProviderTools;
 
 public class InsertVEvents extends ProcessVEvent {
+	
 	private static final String TAG = InsertVEvents.class.getSimpleName();
 
 	public InsertVEvents(Activity activity, Calendar calendar, int calendarId) {
@@ -62,9 +65,9 @@ public class InsertVEvents extends ProcessVEvent {
 			ContentResolver resolver = getActivity().getContentResolver();
 			int i = 0;
 			int j = 0;
-			
+			TimeZone timezone = getTimeZone();
 			for (Object event : vevents) {
-				checkTimeZone((VEvent) event);
+				checkTimeZone((VEvent) event, timezone);
 				ContentValues values = VEventWrapper.resolve((VEvent) event, getCalendarId());
 				if(reminder.getReminders().size()>0) {
 					values.put("hasAlarm", 1);
@@ -115,17 +118,26 @@ public class InsertVEvents extends ProcessVEvent {
 		}
 	}
 
-	private void checkTimeZone(VEvent event) {
+	private TimeZone getTimeZone() {
+		VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
+		if(vTimeZone != null){
+			return new TimeZone(vTimeZone);
+		}
+		//TODO workaround
+		TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+		java.util.TimeZone default_timeZone = java.util.TimeZone.getDefault();
+		TimeZone timezone = registry.getTimeZone(default_timeZone.getID());
+		return timezone;
+	}
+
+	private void checkTimeZone(VEvent event, TimeZone timezone) {
 		DtStart dtStart = event.getStartDate();
-		if(dtStart.getTimeZone() == null){
-			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
-			dtStart.setTimeZone(new TimeZone(vTimeZone));
+		if(dtStart.getTimeZone() == null){			
+			dtStart.setTimeZone(timezone);
 		}
 		DtEnd dtEnd = event.getEndDate();
 		if(dtEnd.getTimeZone() == null){
-			final VTimeZone vTimeZone = (VTimeZone) getCalendar().getComponent(Component.VTIMEZONE);
-			dtEnd.setTimeZone(new TimeZone(vTimeZone));
-		}
-		
+			dtEnd.setTimeZone(timezone);
+		}		
 	}
 }
