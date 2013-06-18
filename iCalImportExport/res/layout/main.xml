@@ -3,27 +3,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <GridLayout
+    <LinearLayout
         android:id="@+id/Main"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_main_left"
         android:layout_marginRight="@dimen/margin_main_right"
         android:layout_marginTop="@dimen/margin_main_top"
-        android:columnCount="1"
-        android:useDefaultMargins="true" >
+        android:orientation="vertical" >
 
         <TextView
             style="@android:style/TextAppearance.Holo.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/textview_choose_calendar" />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dip"
+            android:layout_weight="1"
             android:background="@android:color/darker_gray" />
 
         <Spinner
-            android:id="@+id/Spinner01"
+            android:id="@+id/SpinnerChooseCalendar"
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,36 +49,37 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dip"
+            android:layout_weight="1"
             android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:id="@+id/icalFileButtons"
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:baselineAligned="true" >
 
             <Button
                 android:id="@+id/SearchButton"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|top"
                 android:layout_weight="1"
                 android:text="@string/button_search_files" />
 
             <Button
                 android:id="@+id/SetUrlButton"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_set_http" />
         </LinearLayout>
 
         <Spinner
-            android:id="@+id/Spinner02"
+            android:id="@+id/SpinnerFile"
             style="@android:style/Widget.Holo.Spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:prompt="@string/spinner_choose_file"
@@ -99,7 +102,7 @@
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/textView01"
+                android:id="@+id/IcalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -117,6 +120,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dip"
+            android:layout_weight="1"
             android:background="@android:color/darker_gray" />
 
         <Button
@@ -140,7 +144,7 @@
         <TextView
             style="@android:style/TextAppearance.Holo.Medium"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="left"
             android:text="@string/textview_export" />
 
@@ -148,6 +152,7 @@
             android:layout_width="fill_parent"
             android:layout_height="2dip"
             android:layout_gravity="left"
+            android:layout_weight="1"
             android:background="@android:color/darker_gray" />
 
         <Button
@@ -157,7 +162,6 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="@string/button_save_calendar" />
-
-    </GridLayout>
+    </LinearLayout>
 
 </ScrollView>
