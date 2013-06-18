@@ -16,8 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
+import org.sufficientlysecure.ical.GoogleVEventWrapper.IGoogleWrapper;
+import org.sufficientlysecure.ical.GoogleVEventWrapper.IVEventWrapper;
 
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -29,8 +31,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
 import android.util.Log;
-import at.aichbauer.ical.GoogleVEventWrapper.IGoogleWrapper;
-import at.aichbauer.ical.GoogleVEventWrapper.IVEventWrapper;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class VEventWrapper {

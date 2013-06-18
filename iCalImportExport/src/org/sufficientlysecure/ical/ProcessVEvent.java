@@ -16,11 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sufficientlysecure.ical.tools.dialogs.RunnableWithProgress;
 
 import net.fortuna.ical4j.model.Calendar;
 import android.annotation.TargetApi;
@@ -30,7 +31,6 @@ import android.database.Cursor;
 import android.os.Build;
 import android.provider.CalendarContract;
 import android.util.Log;
-import at.aichbauer.ical.tools.dialogs.RunnableWithProgress;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public abstract class ProcessVEvent extends RunnableWithProgress {

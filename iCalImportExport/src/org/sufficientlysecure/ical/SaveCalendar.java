@@ -16,12 +16,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-import org.sufficientlysecure.ical.R;
+import org.sufficientlysecure.ical.tools.dialogs.DialogTools;
+import org.sufficientlysecure.ical.tools.dialogs.RunnableWithProgress;
 
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
@@ -34,10 +35,6 @@ import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
-import at.aichbauer.ical.activities.CalendarActivity;
-import at.aichbauer.ical.inputAdapters.BasicInputAdapter;
-import at.aichbauer.tools.dialogs.DialogTools;
-import at.aichbauer.tools.dialogs.RunnableWithProgress;
 
 public class SaveCalendar extends RunnableWithProgress {
     private final String LOG_ID = SaveCalendar.class.getSimpleName();
@@ -51,15 +48,9 @@ public class SaveCalendar extends RunnableWithProgress {
 
     @Override
     public void run(ProgressDialog dialog) {
-		String selectedFilename = "";
-		BasicInputAdapter selectedURL =	((CalendarActivity)getActivity()).getSelectedURL();
-		if(selectedURL != null){
-			String tmp = selectedURL.toString();
-			selectedFilename = tmp.substring(tmp.indexOf("Android"), tmp.length());			
-		}
         String input = DialogTools.questionDialog(getActivity(),
                 R.string.dialog_choosefilename_title, R.string.dialog_choosefilename_message,
-                R.string.dialog_proceed, selectedFilename, true, R.drawable.calendar, false);
+                R.string.dialog_proceed, null, true, R.drawable.calendar, false);
         if (input == null || input.equals("")) {
             return;
         }

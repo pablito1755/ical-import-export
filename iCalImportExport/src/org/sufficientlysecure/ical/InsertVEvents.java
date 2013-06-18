@@ -16,11 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
 import java.io.File;
 
-import org.sufficientlysecure.ical.R;
+import org.sufficientlysecure.ical.tools.dialogs.DialogTools;
+import org.sufficientlysecure.ical.tools.providers.ProviderTools;
 
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
@@ -35,8 +36,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.CalendarContract;
 import android.util.Log;
-import at.aichbauer.ical.tools.dialogs.DialogTools;
-import at.aichbauer.ical.tools.providers.ProviderTools;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class InsertVEvents extends ProcessVEvent {

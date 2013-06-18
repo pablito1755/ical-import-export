@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
 import java.io.File;
 import java.io.InputStream;
@@ -26,7 +26,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import at.aichbauer.ical.R;
+import org.sufficientlysecure.ical.activities.MainActivity;
+import org.sufficientlysecure.ical.inputAdapters.BasicInputAdapter;
+import org.sufficientlysecure.ical.inputAdapters.CredentialInputAdapter;
+import org.sufficientlysecure.ical.tools.dialogs.Credentials;
+import org.sufficientlysecure.ical.tools.dialogs.DialogTools;
+import org.sufficientlysecure.ical.tools.dialogs.RunnableWithProgress;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
@@ -44,12 +49,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import at.aichbauer.ical.activities.MainActivity;
-import at.aichbauer.ical.inputAdapters.BasicInputAdapter;
-import at.aichbauer.ical.inputAdapters.CredentialInputAdapter;
-import at.aichbauer.ical.tools.dialogs.Credentials;
-import at.aichbauer.ical.tools.dialogs.DialogTools;
-import at.aichbauer.ical.tools.dialogs.RunnableWithProgress;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class Controller implements OnClickListener {

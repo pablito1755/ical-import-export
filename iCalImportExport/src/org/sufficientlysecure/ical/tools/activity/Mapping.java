@@ -16,29 +16,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical.inputAdapters;
+package org.sufficientlysecure.ical.tools.activity;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
+public class Mapping {
+    private String key;
+    private Object value;
 
-public class BasicInputAdapter {
-    private URL url;
-
-    public BasicInputAdapter(URL url) {
-        this.url = url;
+    public Mapping(String key, Object value) {
+        super();
+        this.key = key;
+        this.value = value;
     }
 
-    public URL getURL() {
-        return this.url;
+    public String getKey() {
+        return key;
     }
 
-    public URLConnection getConnection() throws IOException {
-        return this.url.openConnection();
-    }
-
-    @Override
-    public String toString() {
-        return this.url.toString();
+    public Object getValue() {
+        return value;
     }
 }

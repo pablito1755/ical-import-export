@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical.inputAdapters;
+package org.sufficientlysecure.ical.inputAdapters;
 
 import java.io.IOException;
 import java.net.URL;

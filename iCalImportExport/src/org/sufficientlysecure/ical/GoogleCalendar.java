@@ -16,12 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical;
+package org.sufficientlysecure.ical;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
+@SuppressLint("NewApi")
 public class GoogleCalendar {
     public static final String ID = CalendarContract.Calendars._ID;
     public static final String SYNC_ACCOUNT = CalendarContract.Calendars.ACCOUNT_NAME;

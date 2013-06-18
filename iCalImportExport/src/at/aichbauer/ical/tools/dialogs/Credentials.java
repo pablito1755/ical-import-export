@@ -16,29 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aichbauer.ical.inputAdapters;
+package at.aichbauer.ical.tools.dialogs;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
+public class Credentials {
+    private String username;
+    private String password;
 
-public class BasicInputAdapter {
-    private URL url;
-
-    public BasicInputAdapter(URL url) {
-        this.url = url;
+    public Credentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public URL getURL() {
-        return this.url;
+    public String getUsername() {
+        return username;
     }
 
-    public URLConnection getConnection() throws IOException {
-        return this.url.openConnection();
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Override
-    public String toString() {
-        return this.url.toString();
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
