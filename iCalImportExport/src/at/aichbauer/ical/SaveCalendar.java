@@ -38,73 +38,70 @@ import at.aichbauer.ical.tools.dialogs.DialogTools;
 import at.aichbauer.ical.tools.dialogs.RunnableWithProgress;
 
 public class SaveCalendar extends RunnableWithProgress {
-    private final String LOG_ID = SaveCalendar.class.getSimpleName();
+	private final String LOG_ID = SaveCalendar.class.getSimpleName();
 
-    private GoogleCalendar googleCalendar;
+	private GoogleCalendar googleCalendar;
 
-    public SaveCalendar(Activity activity, GoogleCalendar calendar) {
-        super(activity);
-        this.googleCalendar = calendar;
-    }
+	public SaveCalendar(Activity activity, GoogleCalendar calendar) {
+		super(activity);
+		this.googleCalendar = calendar;
+	}
 
-    @Override
-    public void run(ProgressDialog dialog) {
+	@Override
+	public void run(ProgressDialog dialog) {
 		String selectedFilename = "";
-		BasicInputAdapter selectedURL =	((CalendarActivity)getActivity()).getSelectedURL();
-		if(selectedURL != null){
+		BasicInputAdapter selectedURL = ((MainActivity) getActivity()).getSelectedURL();
+		if (selectedURL != null) {
 			String tmp = selectedURL.toString();
-			selectedFilename = tmp.substring(tmp.indexOf("Android"), tmp.length());			
+			selectedFilename = tmp.substring(tmp.indexOf("Android"), tmp.length());
 		}
-        String input = DialogTools.questionDialog(getActivity(),
-                R.string.dialog_choosefilename_title, R.string.dialog_choosefilename_message,
-                R.string.dialog_proceed, selectedFilename, true, R.drawable.calendar, false);
-        if (input == null || input.equals("")) {
-            return;
-        }
-        if (!input.endsWith(".ics")) {
-            input += ".ics";
-        }
-        String output = Environment.getExternalStorageDirectory() + File.separator + input;
-        int i = 0;
-        setProgressMessage(R.string.progress_loading_calendarentries);
-        Cursor c = getActivity().getContentResolver()
-                .query(VEventWrapper.getContentURI(), null, "calendar_id  = ?",
-                        new String[] { Integer.toString(googleCalendar.getId()) }, null);
-        dialog.setMax(c.getCount());
-        if (c.getCount() == 0) {
-            DialogTools.showInformationDialog(getActivity(), R.string.dialog_information_title,
-                    R.string.dialog_empty_calendar, R.drawable.calendar);
-            return;
-        }
+		String input = DialogTools.questionDialog(getActivity(), R.string.dialog_choosefilename_title,
+				R.string.dialog_choosefilename_message, R.string.dialog_proceed, selectedFilename, true,
+				R.drawable.calendar, false);
+		if (input == null || input.equals("")) {
+			return;
+		}
+		if (!input.endsWith(".ics")) {
+			input += ".ics";
+		}
+		String output = Environment.getExternalStorageDirectory() + File.separator + input;
+		int i = 0;
+		setProgressMessage(R.string.progress_loading_calendarentries);
+		Cursor c = getActivity().getContentResolver().query(VEventWrapper.getContentURI(), null, "calendar_id  = ?",
+				new String[] { Integer.toString(googleCalendar.getId()) }, null);
+		dialog.setMax(c.getCount());
+		if (c.getCount() == 0) {
+			DialogTools.showInformationDialog(getActivity(), R.string.dialog_information_title,
+					R.string.dialog_empty_calendar, R.drawable.calendar);
+			return;
+		}
 
-        Calendar calendar = new Calendar();
-        calendar.getProperties().add(new ProdId(googleCalendar.getOwnerAccount()));
-        calendar.getProperties().add(Version.VERSION_2_0);
-        while (c.moveToNext()) {
-            VEvent vevent = VEventWrapper.resolve(c);
-            vevent.getProperties().add(new Uid((i + 1) + "+" + googleCalendar.getOwnerAccount()));
-            calendar.getComponents().add(vevent);
-            Log.d(LOG_ID, "Adding event to calendar");
-            incrementProgress(1);
-            i++;
-        }
-        c.close();
-        CalendarOutputter outputter = new CalendarOutputter();
-        try {
-            setProgressMessage(R.string.progress_writing_calendar_to_file);
-            outputter.output(calendar, new FileOutputStream(output));
-        } catch (Exception e) {
-            setProgressMessage("Error:\n" + e.getMessage());
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e1) {
-                Log.e(LOG_ID, "InterruptedException", e);
-            }
-            return;
-        }
-        DialogTools.showInformationDialog(getActivity(),
-                getActivity().getString(R.string.dialog_success_title),
-                getActivity().getString(R.string.dialog_sucessfully_written_calendar, i, output),
-                R.drawable.calendar);
-    }
+		Calendar calendar = new Calendar();
+		calendar.getProperties().add(new ProdId(googleCalendar.getOwnerAccount()));
+		calendar.getProperties().add(Version.VERSION_2_0);
+		while (c.moveToNext()) {
+			VEvent vevent = VEventWrapper.resolve(c);
+			vevent.getProperties().add(new Uid((i + 1) + "+" + googleCalendar.getOwnerAccount()));
+			calendar.getComponents().add(vevent);
+			Log.d(LOG_ID, "Adding event to calendar");
+			incrementProgress(1);
+			i++;
+		}
+		c.close();
+		CalendarOutputter outputter = new CalendarOutputter();
+		try {
+			setProgressMessage(R.string.progress_writing_calendar_to_file);
+			outputter.output(calendar, new FileOutputStream(output));
+		} catch (Exception e) {
+			setProgressMessage("Error:\n" + e.getMessage());
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				Log.e(LOG_ID, "InterruptedException", e);
+			}
+			return;
+		}
+		DialogTools.showInformationDialog(getActivity(), getActivity().getString(R.string.dialog_success_title),
+				getActivity().getString(R.string.dialog_sucessfully_written_calendar, i, output), R.drawable.calendar);
+	}
 }
