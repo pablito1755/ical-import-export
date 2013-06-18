@@ -45,182 +45,178 @@ import android.widget.TextView;
 import at.aichbauer.ical.Controller;
 import at.aichbauer.ical.GoogleCalendar;
 import at.aichbauer.ical.ICalConstants;
+import at.aichbauer.ical.R;
 import at.aichbauer.ical.inputAdapters.BasicInputAdapter;
 import at.aichbauer.ical.tools.dialogs.DialogTools;
 import at.aichbauer.ical.tools.dialogs.SpinnerTools;
 
 public class MainActivity extends Activity {
-    private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = MainActivity.class.getSimpleName();
 
-    /*
-     * Views
-     */
-    private Spinner calendarSpinner;
-    private Spinner fileSpinner;
-    private Button calendarInformation;
-    private Button searchButton;
-    private Button loadButton;
-    private Button insertButton;
-    private Button deleteButton;
-    private Button setUrlButton;
-    private Button dumpCalendar;
-    private TextView icalInformation;
-    private Controller controller;
+	/*
+	 * Views
+	 */
+	private Spinner calendarSpinner;
+	private Spinner fileSpinner;
+	private Button calendarInformation;
+	private Button searchButton;
+	private Button loadButton;
+	private Button insertButton;
+	private Button deleteButton;
+	private Button setUrlButton;
+	private Button dumpCalendar;
+	private TextView icalInformation;
+	private Controller controller;
 
-    /*
-     * Values
-     */
-    private List<BasicInputAdapter> urls;
-    private List<GoogleCalendar> calendars;
-    private LinearLayout processGroup;
-    private SharedPreferences preferences;
+	/*
+	 * Values
+	 */
+	private List<BasicInputAdapter> urls;
+	private List<GoogleCalendar> calendars;
+	private SharedPreferences preferences;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+		setContentView(R.layout.main);
 
-        this.controller = new Controller(this);
+		this.controller = new Controller(this);
 
-        // Show help menu
-        preferences = getSharedPreferences("at.aichbauer.iCal", Context.MODE_PRIVATE);
+		// Show help menu
+		preferences = getSharedPreferences("at.aichbauer.iCal", Context.MODE_PRIVATE);
 
-        // Retrieve views
-        calendarSpinner = (Spinner) findViewById(R.id.SpinnerChooseCalendar);
-        fileSpinner = (Spinner) findViewById(R.id.SpinnerFile);
-        searchButton = (Button) findViewById(R.id.SearchButton);
-        loadButton = (Button) findViewById(R.id.LoadButton);
-        insertButton = (Button) findViewById(R.id.InsertButton);
-        deleteButton = (Button) findViewById(R.id.DeleteButton);
-        calendarInformation = (Button) findViewById(R.id.ShowInformationButton);
-        dumpCalendar = (Button) findViewById(R.id.SaveButton);
-        icalInformation = (TextView) findViewById(R.id.IcalInfo);
-        processGroup = (LinearLayout) findViewById(R.id.linearLayoutProcess);
-        setUrlButton = (Button) findViewById(R.id.SetUrlButton);
+		// Retrieve views
+		calendarSpinner = (Spinner) findViewById(R.id.SpinnerChooseCalendar);
+		fileSpinner = (Spinner) findViewById(R.id.SpinnerFile);
+		searchButton = (Button) findViewById(R.id.SearchButton);
+		loadButton = (Button) findViewById(R.id.LoadButton);
+		insertButton = (Button) findViewById(R.id.InsertButton);
+		deleteButton = (Button) findViewById(R.id.DeleteButton);
+		calendarInformation = (Button) findViewById(R.id.ShowInformationButton);
+		dumpCalendar = (Button) findViewById(R.id.SaveButton);
+		icalInformation = (TextView) findViewById(R.id.IcalInfo);
+		setUrlButton = (Button) findViewById(R.id.SetUrlButton);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                controller.init();
-            }
-        }).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.init();
+			}
+		}).start();
 
-        searchButton.setOnClickListener(controller);
-        loadButton.setOnClickListener(controller);
-        calendarInformation.setOnClickListener(controller);
-        dumpCalendar.setOnClickListener(controller);
-        deleteButton.setOnClickListener(controller);
-        insertButton.setOnClickListener(controller);
-        setUrlButton.setOnClickListener(controller);
+		searchButton.setOnClickListener(controller);
+		loadButton.setOnClickListener(controller);
+		calendarInformation.setOnClickListener(controller);
+		dumpCalendar.setOnClickListener(controller);
+		deleteButton.setOnClickListener(controller);
+		insertButton.setOnClickListener(controller);
+		setUrlButton.setOnClickListener(controller);
 
-        // if file intent
-        Intent intent = getIntent();
-        if (intent != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
-            try {
-                setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent.getDataString()))));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		// if file intent
+		Intent intent = getIntent();
+		if (intent != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+			try {
+				setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent.getDataString()))));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    /**
-     * Add a list of calendars to the user interface for selection.
-     * 
-     * @param calendars
-     */
-    public void setCalendars(List<GoogleCalendar> calendars) {
-        this.calendars = calendars;
-        List<String> calendarStrings = new ArrayList<String>();
-        for (GoogleCalendar cal : calendars) {
-            calendarStrings.add(cal.getDisplayName() + " (" + cal.getId() + ")");
-        }
-        SpinnerTools.simpleSpinnerInUI(this, calendarSpinner, calendarStrings);
+	/**
+	 * Add a list of calendars to the user interface for selection.
+	 * 
+	 * @param calendars
+	 */
+	public void setCalendars(List<GoogleCalendar> calendars) {
+		this.calendars = calendars;
+		List<String> calendarStrings = new ArrayList<String>();
+		for (GoogleCalendar cal : calendars) {
+			calendarStrings.add(cal.getDisplayName() + " (" + cal.getId() + ")");
+		}
+		SpinnerTools.simpleSpinnerInUI(this, calendarSpinner, calendarStrings);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                calendarInformation.setVisibility(MainActivity.this.calendars == null ? View.GONE
-                        : View.VISIBLE);
-                dumpCalendar.setVisibility(MainActivity.this.calendars == null ? View.GONE
-                        : View.VISIBLE);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				calendarInformation.setEnabled(MainActivity.this.calendars == null ? false : true);
+				dumpCalendar.setEnabled(MainActivity.this.calendars == null ? false : true);
 
-            }
-        });
-    }
+			}
+		});
+	}
 
-    /**
-     * Set a list of url's for selection.
-     * 
-     * @param urls
-     *            Url's to display in the list
-     */
-    public void setUrls(List<BasicInputAdapter> urls) {
-        this.urls = urls;
-        SpinnerTools.simpleSpinnerInUI(this, fileSpinner, urls);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadButton.setVisibility(MainActivity.this.urls == null ? View.GONE : View.VISIBLE);
-            }
-        });
-    }
+	/**
+	 * Set a list of url's for selection.
+	 * 
+	 * @param urls
+	 *            Url's to display in the list
+	 */
+	public void setUrls(List<BasicInputAdapter> urls) {
+		this.urls = urls;
+		SpinnerTools.simpleSpinnerInUI(this, fileSpinner, urls);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				loadButton.setEnabled(MainActivity.this.urls == null ? false : true);
+			}
+		});
+	}
 
-    public void setCalendar(final Calendar calendar) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                icalInformation.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
-                processGroup.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
-                if (calendar != null) {
-                    icalInformation.setText(getString(R.string.textview_calendar_short_information,
-                            calendar.getComponents(VEvent.VEVENT).size()));
-                }
-            }
-        });
-    }
+	public void setCalendar(final Calendar calendar) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				icalInformation.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
+				deleteButton.setEnabled(calendar == null ? false : true);
+				insertButton.setEnabled(calendar == null ? false : true);
+				if (calendar != null) {
+					icalInformation.setText(getString(R.string.textview_calendar_short_information, calendar
+							.getComponents(VEvent.VEVENT).size()));
+				}
+			}
+		});
+	}
 
-    public SharedPreferences getPreferenceStore() {
-        return preferences;
-    }
+	public SharedPreferences getPreferenceStore() {
+		return preferences;
+	}
 
-    public GoogleCalendar getSelectedCalendar() {
-        if (calendarSpinner.getSelectedItem() != null && calendars != null) {
-            String calendarName = calendarSpinner.getSelectedItem().toString();
-            for (GoogleCalendar cal : calendars) {
-                if ((cal.getDisplayName() + " (" + cal.getId() + ")").equals(calendarName)) {
-                    return cal;
-                }
-            }
-        }
-        return null;
-    }
+	public GoogleCalendar getSelectedCalendar() {
+		if (calendarSpinner.getSelectedItem() != null && calendars != null) {
+			String calendarName = calendarSpinner.getSelectedItem().toString();
+			for (GoogleCalendar cal : calendars) {
+				if ((cal.getDisplayName() + " (" + cal.getId() + ")").equals(calendarName)) {
+					return cal;
+				}
+			}
+		}
+		return null;
+	}
 
-    public BasicInputAdapter getSelectedURL() {
-        return fileSpinner.getSelectedItem() != null ? (BasicInputAdapter) fileSpinner
-                .getSelectedItem() : null;
-    }
+	public BasicInputAdapter getSelectedURL() {
+		return fileSpinner.getSelectedItem() != null ? (BasicInputAdapter) fileSpinner.getSelectedItem() : null;
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.help) {
-            DialogTools.showInformationDialog(this, getString(R.string.menu_help),
-                    Html.fromHtml(ICalConstants.HELP), R.drawable.calendar_gray);
-        } else if (item.getItemId() == R.id.changelog) {
-            DialogTools.showInformationDialog(this, R.string.menu_changelog, R.string.changelog,
-                    R.drawable.calendar_gray);
-        } else if (item.getItemId() == R.id.license) {
-            DialogTools.showInformationDialog(this, R.string.menu_license, R.string.license,
-                    R.drawable.calendar_gray);
-        }
-        return super.onContextItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.help) {
+			DialogTools.showInformationDialog(this, getString(R.string.menu_help), Html.fromHtml(ICalConstants.HELP),
+					R.drawable.calendar_gray);
+		} else if (item.getItemId() == R.id.changelog) {
+			DialogTools.showInformationDialog(this, R.string.menu_changelog, R.string.changelog,
+					R.drawable.calendar_gray);
+		} else if (item.getItemId() == R.id.license) {
+			DialogTools.showInformationDialog(this, R.string.menu_license, R.string.license, R.drawable.calendar_gray);
+		}
+		return super.onContextItemSelected(item);
+	}
 }
