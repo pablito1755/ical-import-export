@@ -20,8 +20,6 @@ package at.aichbauer.ical;
 
 import java.util.List;
 
-import org.sufficientlysecure.ical.R;
-
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.component.VEvent;
