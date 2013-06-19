@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public class MainActivity extends Activity {
 	private Button dumpCalendar;
 	private TextView icalInformation;
 	private Controller controller;
+	private CheckBox chbDuplicates;
 
 	/*
 	 * Values
@@ -100,6 +102,7 @@ public class MainActivity extends Activity {
 		dumpCalendar = (Button) findViewById(R.id.SaveButton);
 		icalInformation = (TextView) findViewById(R.id.IcalInfo);
 		setUrlButton = (Button) findViewById(R.id.SetUrlButton);
+		chbDuplicates = (CheckBox) findViewById(R.id.chbDuplicates);
 
 		new Thread(new Runnable() {
 			@Override
@@ -174,6 +177,7 @@ public class MainActivity extends Activity {
 				icalInformation.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
 				deleteButton.setEnabled(calendar == null ? false : true);
 				insertButton.setEnabled(calendar == null ? false : true);
+				chbDuplicates.setEnabled(calendar == null ? false : true);
 				if (calendar != null) {
 					icalInformation.setText(getString(R.string.textview_calendar_short_information, calendar
 							.getComponents(VEvent.VEVENT).size()));
@@ -200,6 +204,10 @@ public class MainActivity extends Activity {
 
 	public BasicInputAdapter getSelectedURL() {
 		return fileSpinner.getSelectedItem() != null ? (BasicInputAdapter) fileSpinner.getSelectedItem() : null;
+	}
+	
+	public boolean checkForDuplicates(){
+		return chbDuplicates.isChecked();
 	}
 
 	@Override

@@ -144,7 +144,7 @@
                 android:text="@string/button_insert_entries" />
 
             <CheckBox
-                android:id="@+id/checkBox1"
+                android:id="@+id/chbDuplicates"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

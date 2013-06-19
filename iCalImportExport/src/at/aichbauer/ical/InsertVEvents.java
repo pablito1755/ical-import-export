@@ -43,6 +43,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.widget.CheckBox;
+import at.aichbauer.ical.activities.MainActivity;
 import at.aichbauer.ical.tools.dialogs.DialogTools;
 import at.aichbauer.ical.tools.providers.ProviderTools;
 
@@ -61,9 +63,7 @@ public class InsertVEvents extends ProcessVEvent {
 					R.string.dialog_insert_entries, R.string.dialog_yes, R.string.dialog_no, R.drawable.calendar)) {
 				return;
 			}
-			boolean checkForDuplicates = DialogTools.decisionDialog(getActivity(), R.string.dialog_information_title,
-					R.string.dialog_insert_search_for_duplicates, R.string.dialog_yes, R.string.dialog_no,
-					R.drawable.calendar);
+			boolean checkForDuplicates = ((MainActivity)getActivity()).checkForDuplicates();
 
 			Reminder reminder = new Reminder();
 
