@@ -5,6 +5,7 @@ obj
 lint.xml
 local.properties
 ant.properties
+project.properties
 
 #Eclipse
 .project
