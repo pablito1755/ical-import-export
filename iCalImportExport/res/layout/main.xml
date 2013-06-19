@@ -62,18 +62,21 @@
             <Button
                 android:id="@+id/SearchButton"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="@string/button_search_files" />
 
             <Button
                 android:id="@+id/SetUrlButton"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="@string/button_set_http" />
+
         </LinearLayout>
 
         <Spinner
@@ -123,14 +126,34 @@
             android:layout_weight="1"
             android:background="@android:color/darker_gray" />
 
-        <Button
-            android:id="@+id/InsertButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/insertEntries"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:enabled="false"
-            android:text="@string/button_insert_entries" />
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/InsertButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_main_right"
+                android:enabled="false"
+                android:text="@string/button_insert_entries" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:checked="true"
+                android:enabled="false"
+                android:text="@string/checkbox_duplicates" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/DeleteButton"
