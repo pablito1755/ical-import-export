@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">iCal Import/Export</string>
+    <string name="app_name">iCal Import/Export Plus</string>
     <string name="progress_reading_ical">Reading iCal file, can take a few minutes.</string>
     <string name="progress_loading_builder">Loading iCal builder.</string>
     <string name="progress_searching_ical_files">Searching for iCal files.</string>
@@ -72,9 +72,9 @@
         Froyo also working with any type of file browser.
         \n\nVersion 1.0:\nSupporting simple iCal import and export. Attendees are not
         supported.</string>
-    <string name="license">iCal Import/Export is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-\n\niCal Import/Export is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-\n\nYou should have received a copy of the GNU General Public License along with iCal Import/Export. If not, see http://www.gnu.org/licenses/.     
+    <string name="license">iCal Import/Export Plus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+\n\niCal Import/Export Plus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+\n\nYou should have received a copy of the GNU General Public License along with iCal Import/Export Plus. If not, see http://www.gnu.org/licenses/.     
 \n\n\n\n===iCal4j - License===
 \n\nCopyright (c) 2009, Ben Fortuna\n
 		All rights reserved.
