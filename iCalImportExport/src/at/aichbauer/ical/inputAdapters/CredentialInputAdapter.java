@@ -55,4 +55,10 @@ public class CredentialInputAdapter extends BasicInputAdapter {
         return super.getConnection();
     }
 
+	public Credentials getCredentials() {
+		return credentials;
+	}
+    
+    
+
 }

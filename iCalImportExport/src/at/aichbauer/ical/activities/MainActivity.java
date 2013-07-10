@@ -53,6 +53,8 @@ import at.aichbauer.ical.GoogleCalendar;
 import at.aichbauer.ical.ICalConstants;
 import at.aichbauer.ical.R;
 import at.aichbauer.ical.inputAdapters.BasicInputAdapter;
+import at.aichbauer.ical.inputAdapters.CredentialInputAdapter;
+import at.aichbauer.ical.tools.dialogs.Credentials;
 import at.aichbauer.ical.tools.dialogs.DialogTools;
 import at.aichbauer.ical.tools.dialogs.SpinnerTools;
 
@@ -137,12 +139,48 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		chbDuplicates.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+		fileSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				BasicInputAdapter inputAdapter = (BasicInputAdapter) fileSpinner.getSelectedItem();
+				String url = inputAdapter.getURL().toString();
+				String username = "";
+				String password = "";
+				
+				if(inputAdapter instanceof CredentialInputAdapter){
+					Credentials credentials = ((CredentialInputAdapter)inputAdapter).getCredentials();
+					username = credentials.getUsername();
+					password = credentials.getPassword();
+				}
+				
+				Editor editor = preferences.edit();
+                editor.putString(ICalConstants.PREFERENCE_LAST_URL, url);
+                editor.putString(ICalConstants.PREFERENCE_LAST_USERNAME, username);
+                editor.putString(ICalConstants.PREFERENCE_LAST_PASSWORD, password);
+				editor.commit();
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				Editor editor = preferences.edit();
+                editor.putString(ICalConstants.PREFERENCE_LAST_URL, "");
+                editor.putString(ICalConstants.PREFERENCE_LAST_USERNAME, "");
+                editor.putString(ICalConstants.PREFERENCE_LAST_PASSWORD, "");
+				editor.commit();
+				
+			}
+		});
+
+		chbDuplicates.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				Editor editor = preferences.edit();
-				editor.putBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, chbDuplicates.isChecked());
-				editor.commit();				
+				editor.putBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED,
+						chbDuplicates.isChecked());
+				editor.commit();
 			}
 		});
 
@@ -171,9 +209,34 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
+
+		// load last url
+		try {
+			String url_string = preferences.getString(ICalConstants.PREFERENCE_LAST_URL,
+					"");
+			URL url = new URL(url_string);
+			String username = preferences.getString(
+					ICalConstants.PREFERENCE_LAST_USERNAME, "");
+			String password = preferences.getString(
+					ICalConstants.PREFERENCE_LAST_PASSWORD, "");
+
+			if (username != null && !username.equals("") && password != null) {
+				setUrls(Arrays
+						.asList((BasicInputAdapter) new CredentialInputAdapter(url,
+								new Credentials(username, password))));
+			} else {
+				setUrls(Arrays.asList(new BasicInputAdapter(url)));
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+
 		// duplicate checkbox
-		boolean checked = preferences.getBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, false);
+		boolean checked = preferences.getBoolean(
+				ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, false);
 		chbDuplicates.setChecked(checked);
 
 	}
