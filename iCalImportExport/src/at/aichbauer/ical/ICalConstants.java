@@ -42,4 +42,6 @@ public interface ICalConstants {
     public static final String PREFERENCE_LAST_USERNAME = "lastUsername";
     public static final String PREFERENCE_LAST_PASSWORD = "lastPassword";
     public static final String PREFERENCE_LAST_CALENDAR = "lastCalendar";
+    public static final String PREFERENCE_DUPCLICATES_CHECKED = "duplicatesChecked";
+    
 }

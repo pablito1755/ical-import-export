@@ -44,6 +44,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import at.aichbauer.ical.Controller;
@@ -134,6 +136,15 @@ public class MainActivity extends Activity {
 				editor.commit();
 			}
 		});
+		
+		chbDuplicates.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				Editor editor = preferences.edit();
+				editor.putBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, chbDuplicates.isChecked());
+				editor.commit();				
+			}
+		});
 
 		// if file intent
 		Intent intent = getIntent();
@@ -160,6 +171,10 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
+		
+		// duplicate checkbox
+		boolean checked = preferences.getBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, false);
+		chbDuplicates.setChecked(checked);
 
 	}
 
