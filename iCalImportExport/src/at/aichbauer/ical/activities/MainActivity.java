@@ -119,7 +119,27 @@ public class MainActivity extends Activity {
 		deleteButton.setOnClickListener(controller);
 		insertButton.setOnClickListener(controller);
 		setUrlButton.setOnClickListener(controller);
+		
+		setListenersToSavePreferences();	
 
+		// if file intent
+		Intent intent = getIntent();
+		if (intent != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+			try {
+				setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent
+						.getDataString()))));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * when a setting is changed, it is immediately written to the preferences.
+	 * This method contains all listeners where the saving happens
+	 * 
+	 */
+	private void setListenersToSavePreferences() {
 		calendarSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -183,17 +203,7 @@ public class MainActivity extends Activity {
 				editor.commit();
 			}
 		});
-
-		// if file intent
-		Intent intent = getIntent();
-		if (intent != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
-			try {
-				setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent
-						.getDataString()))));
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		}
+		
 	}
 
 	private void loadOldPreferences() {
