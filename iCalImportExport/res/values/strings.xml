@@ -110,4 +110,9 @@
 		SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 <string name="textview_modify_calendar">Make changes to calendar</string>
 <string name="checkbox_duplicates">ignore duplicates</string>
+<string name="preference_last_url">lastUrl</string>
+<string name="preference_last_username">lastUsername</string>
+<string name="preference_last_password">lastPassword</string>
+<string name="preference_last_calendar">lastCalendar</string>
+<string name="preference_duplicates_checked">duplicatesChecked</string>
 </resources>

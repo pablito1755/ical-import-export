@@ -38,10 +38,5 @@ public interface ICalConstants {
             + "If you are considering errors, please add a new issue to <a href=\"https://github.com/gillesB/ical-import-export\">the developer's homepage</a> and provide an iCal file you would like to import.<br>"
             + "<br>Thanks to iCal4j Project for the parser/interpreter<br><br>"
             + "<i>To view this information again: menu --> help</i>";
-    public static final String PREFERENCE_LAST_URL = "lastUrl";
-    public static final String PREFERENCE_LAST_USERNAME = "lastUsername";
-    public static final String PREFERENCE_LAST_PASSWORD = "lastPassword";
-    public static final String PREFERENCE_LAST_CALENDAR = "lastCalendar";
-    public static final String PREFERENCE_DUPCLICATES_CHECKED = "duplicatesChecked";
     
 }

@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				Editor editor = preferences.edit();
-				editor.putString(ICalConstants.PREFERENCE_LAST_CALENDAR,
+				editor.putString(getString(R.string.preference_last_calendar),
 						calendarSpinner.getSelectedItem().toString());
 				editor.commit();
 			}
@@ -154,7 +154,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				Editor editor = preferences.edit();
-				editor.putString(ICalConstants.PREFERENCE_LAST_CALENDAR, "");
+				editor.putString(getString(R.string.preference_last_calendar), "");
 				editor.commit();
 			}
 		});
@@ -176,9 +176,9 @@ public class MainActivity extends Activity {
 				}
 				
 				Editor editor = preferences.edit();
-                editor.putString(ICalConstants.PREFERENCE_LAST_URL, url);
-                editor.putString(ICalConstants.PREFERENCE_LAST_USERNAME, username);
-                editor.putString(ICalConstants.PREFERENCE_LAST_PASSWORD, password);
+                editor.putString(getString(R.string.preference_last_url), url);
+                editor.putString(getString(R.string.preference_last_username), username);
+				editor.putString(getString(R.string.preference_last_password), password);
 				editor.commit();
 				
 			}
@@ -186,9 +186,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				Editor editor = preferences.edit();
-                editor.putString(ICalConstants.PREFERENCE_LAST_URL, "");
-                editor.putString(ICalConstants.PREFERENCE_LAST_USERNAME, "");
-                editor.putString(ICalConstants.PREFERENCE_LAST_PASSWORD, "");
+                editor.putString(getString(R.string.preference_last_url), "");
+                editor.putString(getString(R.string.preference_last_username), "");
+                editor.putString(getString(R.string.preference_last_password), "");
 				editor.commit();
 				
 			}
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				Editor editor = preferences.edit();
-				editor.putBoolean(ICalConstants.PREFERENCE_DUPCLICATES_CHECKED,
+				editor.putBoolean(getString(R.string.preference_duplicates_checked),
 						chbDuplicates.isChecked());
 				editor.commit();
 			}
@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 	private void loadOldPreferences() {
 		// selected calendar
 		String lastCalendar = getPreferenceStore().getString(
-				ICalConstants.PREFERENCE_LAST_CALENDAR, "");
+				getString(R.string.preference_last_calendar), "");
 
 		for (int i = 0; i < calendarSpinner.getCount(); i++) {
 			String spinnerItem = calendarSpinner.getItemAtPosition(i)
@@ -222,13 +222,13 @@ public class MainActivity extends Activity {
 
 		// load last url
 		try {
-			String url_string = preferences.getString(ICalConstants.PREFERENCE_LAST_URL,
+			String url_string = preferences.getString(getString(R.string.preference_last_url),
 					"");
 			URL url = new URL(url_string);
 			String username = preferences.getString(
-					ICalConstants.PREFERENCE_LAST_USERNAME, "");
+					getString(R.string.preference_last_username), "");
 			String password = preferences.getString(
-					ICalConstants.PREFERENCE_LAST_PASSWORD, "");
+					getString(R.string.preference_last_password), "");
 
 			if (username != null && !username.equals("") && password != null) {
 				setUrls(Arrays
@@ -246,7 +246,7 @@ public class MainActivity extends Activity {
 
 		// duplicate checkbox
 		boolean checked = preferences.getBoolean(
-				ICalConstants.PREFERENCE_DUPCLICATES_CHECKED, false);
+				getString(R.string.preference_duplicates_checked), false);
 		chbDuplicates.setChecked(checked);
 
 	}
