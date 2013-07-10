@@ -1,5 +1,5 @@
 /**
- * iCal Import/Export - import ical-Files on Android
+ * iCal Import/Export Plus - import ical-Files on Android
  * 
  * Copyright (C) 2013 Gilles Baatz <baatzgilles@gmail.com>
  * Copyright (C) 2013 Dominik Schürmann <dominik@dominikschuermann.de>
