@@ -35,7 +35,7 @@ public interface ICalConstants {
             + "  +<i>Delete events</i><br><small>The events from the selected iCal file will be removed from the selected calendar. When finished a status information should be displayed.</small><br>"
             + "  +<i>Save to iCal File</i><br><small>All events from the selected calendar will be saved to the selected iCal File</small><br>"
             + "<br>"
-            + "If you are considering errors, please add a new issue to <a href=\"https://github.com/gillesB/ical-import-export\">the developer's homepage</a> and provide an iCal file you would like to import.<br>"
+            + "If you are considering errors, please add a new issue to <a href=\"https://github.com/gillesB/ical-import-export\">the developer's homepage</a> or write a mail to the <a href=\"mailto:baatzgilles@gmail.com\">developper</a> and provide an iCal file you would like to import.<br>"
             + "<br>Thanks to iCal4j Project for the parser/interpreter<br><br>"
             + "<i>To view this information again: menu --> help</i>";
     
