@@ -22,7 +22,7 @@
 package at.aichbauer.ical;
 
 public interface ICalConstants {
-    public static final String HELP = "<b>iCal Import/Export</b><br>"
+    public static final String HELP = "<b>iCal Import/Export Plus</b><br>"
             + "It is a simple tool to import iCal files into your Android calendar."
             + "<br>To successfully import iCal events please follow the given steps below:<br><br>"
             + "  +<i>Select a calendar</i><br><small>The selected calendar will be edited</small><br>"
@@ -36,7 +36,7 @@ public interface ICalConstants {
             + "  +<i>Save to iCal File</i><br><small>All events from the selected calendar will be saved to the selected iCal File</small><br>"
             + "<br>"
             + "If you are considering errors, please add a new issue to <a href=\"https://github.com/gillesB/ical-import-export\">the developer's homepage</a> or write a mail to the <a href=\"mailto:baatzgilles@gmail.com\">developper</a> and provide an iCal file you would like to import.<br>"
-            + "<br>Thanks to iCal4j Project for the parser/interpreter<br><br>"
+            + "<br>Thanks to iCal4j Project for the parser/interpreter and to Lukas Aichbauer who provided the original application.<br><br>"
             + "<i>To view this information again: menu --> help</i>";
     
 }
