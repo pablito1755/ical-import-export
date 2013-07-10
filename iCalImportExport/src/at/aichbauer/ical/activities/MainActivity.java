@@ -33,12 +33,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -86,7 +89,8 @@ public class MainActivity extends Activity {
 		this.controller = new Controller(this);
 
 		// Show help menu
-		preferences = getSharedPreferences("at.aichbauer.iCal", Context.MODE_PRIVATE);
+		preferences = getSharedPreferences("at.aichbauer.iCal",
+				Context.MODE_PRIVATE);
 
 		// Retrieve views
 		calendarSpinner = (Spinner) findViewById(R.id.SpinnerChooseCalendar);
@@ -101,12 +105,8 @@ public class MainActivity extends Activity {
 		setUrlButton = (Button) findViewById(R.id.SetUrlButton);
 		chbDuplicates = (CheckBox) findViewById(R.id.chbDuplicates);
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				controller.init();
-			}
-		}).start();
+		controller.init();
+		loadOldPreferences();
 
 		searchButton.setOnClickListener(controller);
 		loadButton.setOnClickListener(controller);
@@ -116,15 +116,51 @@ public class MainActivity extends Activity {
 		insertButton.setOnClickListener(controller);
 		setUrlButton.setOnClickListener(controller);
 
+		calendarSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				Editor editor = preferences.edit();
+				editor.putString(ICalConstants.PREFERENCE_LAST_CALENDAR,
+						calendarSpinner.getSelectedItem().toString());
+				editor.commit();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				Editor editor = preferences.edit();
+				editor.putString(ICalConstants.PREFERENCE_LAST_CALENDAR, "");
+				editor.commit();
+			}
+		});
+
 		// if file intent
 		Intent intent = getIntent();
 		if (intent != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
 			try {
-				setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent.getDataString()))));
+				setUrls(Arrays.asList(new BasicInputAdapter(new URL(intent
+						.getDataString()))));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void loadOldPreferences() {
+		// selected calendar
+		String lastCalendar = getPreferenceStore().getString(
+				ICalConstants.PREFERENCE_LAST_CALENDAR, "");
+
+		for (int i = 0; i < calendarSpinner.getCount(); i++) {
+			String spinnerItem = calendarSpinner.getItemAtPosition(i)
+					.toString();
+			if (lastCalendar.equals(spinnerItem)) {
+				calendarSpinner.setSelection(i);
+				break;
+			}
+		}
+
 	}
 
 	/**
@@ -136,15 +172,20 @@ public class MainActivity extends Activity {
 		this.calendars = calendars;
 		List<String> calendarStrings = new ArrayList<String>();
 		for (GoogleCalendar cal : calendars) {
-			calendarStrings.add(cal.getDisplayName() + " (" + cal.getId() + ")");
+			calendarStrings
+					.add(cal.getDisplayName() + " (" + cal.getId() + ")");
 		}
 		SpinnerTools.simpleSpinnerInUI(this, calendarSpinner, calendarStrings);
 
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				calendarInformation.setEnabled(MainActivity.this.calendars == null ? false : true);
-				dumpCalendar.setEnabled(MainActivity.this.calendars == null ? false : true);
+				calendarInformation
+						.setEnabled(MainActivity.this.calendars == null ? false
+								: true);
+				dumpCalendar
+						.setEnabled(MainActivity.this.calendars == null ? false
+								: true);
 
 			}
 		});
@@ -162,7 +203,8 @@ public class MainActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				loadButton.setEnabled(MainActivity.this.urls == null ? false : true);
+				loadButton.setEnabled(MainActivity.this.urls == null ? false
+						: true);
 			}
 		});
 	}
@@ -171,13 +213,15 @@ public class MainActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				icalInformation.setVisibility(calendar == null ? View.GONE : View.VISIBLE);
+				icalInformation.setVisibility(calendar == null ? View.GONE
+						: View.VISIBLE);
 				deleteButton.setEnabled(calendar == null ? false : true);
 				insertButton.setEnabled(calendar == null ? false : true);
 				chbDuplicates.setEnabled(calendar == null ? false : true);
 				if (calendar != null) {
-					icalInformation.setText(getString(R.string.textview_calendar_short_information, calendar
-							.getComponents(VEvent.VEVENT).size()));
+					icalInformation.setText(getString(
+							R.string.textview_calendar_short_information,
+							calendar.getComponents(VEvent.VEVENT).size()));
 				}
 			}
 		});
@@ -191,7 +235,8 @@ public class MainActivity extends Activity {
 		if (calendarSpinner.getSelectedItem() != null && calendars != null) {
 			String calendarName = calendarSpinner.getSelectedItem().toString();
 			for (GoogleCalendar cal : calendars) {
-				if ((cal.getDisplayName() + " (" + cal.getId() + ")").equals(calendarName)) {
+				if ((cal.getDisplayName() + " (" + cal.getId() + ")")
+						.equals(calendarName)) {
 					return cal;
 				}
 			}
@@ -200,10 +245,11 @@ public class MainActivity extends Activity {
 	}
 
 	public BasicInputAdapter getSelectedURL() {
-		return fileSpinner.getSelectedItem() != null ? (BasicInputAdapter) fileSpinner.getSelectedItem() : null;
+		return fileSpinner.getSelectedItem() != null ? (BasicInputAdapter) fileSpinner
+				.getSelectedItem() : null;
 	}
-	
-	public boolean checkForDuplicates(){
+
+	public boolean checkForDuplicates() {
 		return chbDuplicates.isChecked();
 	}
 
@@ -217,13 +263,16 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.help) {
-			DialogTools.showInformationDialog(this, getString(R.string.menu_help), Html.fromHtml(ICalConstants.HELP),
-					R.drawable.calendar_gray);
+			DialogTools
+					.showInformationDialog(this, getString(R.string.menu_help),
+							Html.fromHtml(ICalConstants.HELP),
+							R.drawable.calendar_gray);
 		} else if (item.getItemId() == R.id.changelog) {
-			DialogTools.showInformationDialog(this, R.string.menu_changelog, R.string.changelog,
-					R.drawable.calendar_gray);
+			DialogTools.showInformationDialog(this, R.string.menu_changelog,
+					R.string.changelog, R.drawable.calendar_gray);
 		} else if (item.getItemId() == R.id.license) {
-			DialogTools.showInformationDialog(this, R.string.menu_license, R.string.license, R.drawable.calendar_gray);
+			DialogTools.showInformationDialog(this, R.string.menu_license,
+					R.string.license, R.drawable.calendar_gray);
 		}
 		return super.onContextItemSelected(item);
 	}
